@@ -1,5 +1,4 @@
 `include "adder.v"
-`include "basicBinary.v"
 `include "mux.v"
 
 `define AND and #30
