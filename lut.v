@@ -12,21 +12,21 @@
 module aluLUT
 (
     output reg[2:0] sel,
-    output reg      negate,
+    output reg      invert,
     input[2:0]      ALUcommand
-)
+);
+    wire[2:0] ALUcommand;
 
-  always// @(ALUcommand) 
-  begin
-    case (ALUcommand)
-        `ADD:  begin muxindex = 0; invert=0; end    
-        `SUB:  begin muxindex = 0; invert=1; end
-        `AND:  begin muxindex = 1; invert=1; end
-        `NAND: begin muxindex = 1; invert=0; end
-        `NOR:  begin muxindex = 2; invert=0; end
-        `OR:   begin muxindex = 2; invert=1; end
-        `XOR:  begin muxindex = 3; invert=0; end
-        // `SLT:  begin muxindex = 2; invert=0; end   
-    endcase
-  end
+    always @(ALUcommand) begin
+        case (ALUcommand)
+            `ADD:  begin sel = 0; invert=0; end    
+            `SUB:  begin sel = 0; invert=1; end
+            `AND:  begin sel = 1; invert=1; end
+            `NAND: begin sel = 1; invert=0; end
+            `NOR:  begin sel = 2; invert=0; end
+            `OR:   begin sel = 2; invert=1; end
+            `XOR:  begin sel = 3; invert=0; end
+            // `SLT:  begin muxindex = 2; invert=0; end   
+        endcase
+    end
 endmodule

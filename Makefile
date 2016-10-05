@@ -5,19 +5,19 @@ all:
 	echo "make {adder, alu, lut, mux, slt, clean}"
 
 adder: adder.v adder.t.v
-	$(CC) adder.t.v -o $(OUT)
+	$(CC) adder.t.v && ./a.out
 
 alu: alu.v alu.t.v
-	$(CC) alu.t.v -o $(OUT)
+	$(CC) alu.t.v && ./a.out
 
 lut: lut.v lut.t.v
-	$(CC) lut.t.v -o $(OUT)
+	$(CC) lut.t.v && ./a.out
 
 mux: mux.v mux.t.v
-	$(CC) mux.t.v -o $(OUT)
+	$(CC) mux.t.v && ./a.out
 
 slt: slt.v slt.t.v
-	$(CC) slt.t.v -o $(OUT)
+	$(CC) slt.t.v && ./a.out
 
 
 clean:

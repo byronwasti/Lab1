@@ -2,14 +2,16 @@
 `include "lut.v"
 
 module testLUT();
-    reg [2:0] op;
+    reg [2:0] cmd;
 
     wire [2:0] sel;
-    wire negate;
+    wire invert;
 
-    aluLUT aluLUT0 (sel, negate, op);
+    aluLUT aluLUT0 (sel, invert, cmd);
 
     initial begin
-        $display("sel negate op");
+        $display("cmd | sel invert");
+        cmd = `ADD;
+        $display("  %b |   %b      %b | 0 0", cmd, sel, invert);
     end
 endmodule
