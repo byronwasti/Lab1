@@ -3,30 +3,22 @@
 `include "slt.v"
 
 module testSLT();
-    reg[31:0] a, b;
-    wire boolean;
+    reg a, b, carryin;
+    wire boolean, carryout;
 
-    SLTcircuit setLessThan (boolean, a, b);
+    SLTcircuit setLessThan (overflow, carryout, sum, a, b, carryin);
 
     initial begin
     // $dumpfile("slt.vcd");
     // $dumpvars();
-    $display("A B | LT?");
-    a=1;b=0; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=1;b=1; #500 
-    $display("%b %b | %b", a, b, boolean);
-    a=0;b=1; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=0;b=32'b11111111111111111111111111111111; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=32'b11111111111111111111111111111111;b=0; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=32'b1111111111;b=32'b1111111111; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=32'b11111111;b=32'b1111; #500
-    $display("%b %b | %b", a, b, boolean);
-    a=32'b1010101010101000;b=32'b10101010; #500
-    $display("%b %b | %b", a, b, boolean);
+    $display("A B | Cin Cout | Overflow Sum");
+    a=0; b=0; carryin=1; #500
+    $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
+    a=1; b=0; carryin=1; #500
+    $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
+    a=0; b=1; carryin=1; #500
+    $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
+    a=1; b=1; carryin=1; #500
+    $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
     end
 endmodule
