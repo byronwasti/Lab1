@@ -2,7 +2,12 @@
 `include "basicBinary.v"
 `include "mux.v"
 
+`define AND and #30
+`define OR or #30
+`define NOT not #10
 `define XOR xor #50
+`define NAND nand #20
+`define NOR nor #20
 
 module bitSliceALU
 (
@@ -19,11 +24,11 @@ module bitSliceALU
     wire [7:0] outputs;
     wire invertB;
 
-    aluAND andgate0 (outputs[0],  a, b);
-    aluNOR norgate0 (outputs[1], a, b);
-    aluOR orgate0 (outputs[2], a, b);
-    aluXOR xorgate0 (outputs[3], a, b);
-    aluNAND nandgate0 (outputs[4], a, b);
+    `AND andgate0 (outputs[0],  a, b);
+    `NOR norgate0 (outputs[1], a, b);
+    `OR orgate0 (outputs[2], a, b);
+    `XOR xorgate0 (outputs[3], a, b);
+    `NAND nandgate0 (outputs[4], a, b);
     
     `XOR xorgate1 (invertB, negate, b);
 
