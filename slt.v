@@ -10,20 +10,18 @@
 
 module SLTcircuit
 (
-    output boolean,
-    input[31:0] a,
-    input[31:0] b
+    output overflow,
+    output carryout,
+    output sum,
+    input a,
+    input b,
+    input carryin
 );
-    wire[31:0] a, b, newb;
-    wire[31:0] carryin, sum, carryout;
+    wire a, b, invb;
+    wire carryin, carryout, sum;
 
-    generate
-        genvar i;
-	for (i = 0; i<32; i = i + 1)
-	    begin : gen1
-		not notgate(newb[i], b[i]);
-		fullAdder addmod(sum[i], carryout[i], a[i], newb[i], carryin[i]);
-	    end
-    endgenerate	
-    and andgate(boolean, 1, carryout[31]);
+    not notgate(invb, b);
+    fullAdder addmod(sum, carryout, a, invb, carryin);
+    xor xorgate(overflow, carryin, carryout);
+
 endmodule
