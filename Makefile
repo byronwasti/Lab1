@@ -10,6 +10,9 @@ adder: adder.v adder.t.v
 alu: alu.v alu.t.v
 	$(CC) alu.t.v && ./a.out
 
+aluSlice: alu.v alu_slice.t.v
+	$(CC) alu_slice.t.v && ./a.out
+
 lut: lut.v lut.t.v
 	$(CC) lut.t.v && ./a.out
 

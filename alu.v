@@ -45,7 +45,7 @@ module alu
     output overflow,
     input [2:0] operation,
     input [31:0] a,
-    input [31:0] b,
+    input [31:0] b
 );
 
     wire [31:0] outSlice;
@@ -55,7 +55,7 @@ module alu
     wire invert;
     aluLUT lut0 (sel, invert, operation);
 
-    bitSliceALU _alu(outSlice[0], carryoutSlice[0], a[0], b[0], sel, invert);
+    bitSliceALU _alu(outSlice[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
     genvar i;
     generate
         for (i=1; i < 32; i=i+1) begin : ADDER
