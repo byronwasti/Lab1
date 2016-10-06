@@ -12,29 +12,23 @@
 
 module testALU();
     
-    reg[31:0] a;
-    reg[31:0] b;
+    reg signed [31:0] a;
+    reg signed [31:0] b;
     reg[2:0] operation;
 
-    wire[31:0] out;
+    wire signed [31:0] out;
     wire overflow;
 
     alu alu0(out, overflow, operation, a, b);
 
     initial begin
-        $dumpfile("alu_all.vcd");
-        $dumpvars();  
-        $display("a  b  op | out overflow | Expected");
-        
-        //a=32'd10;
-        //b=32'd13;
-        a=32'd2;
-        b=32'd1;
-        operation=`AND;
-        #100000;
-        $display("%d %d %b | %d %b | 15 0", a, b, operation, $signed(out), overflow);
+        // $dumpfile("alu_all.vcd");
+        // $dumpvars();  
+        $display("a            b            op  | out          overflow | expected");
+        a=-32'd2147483000;b=32'd1;operation=`ADD; #100000;
+        $display("%-11d  %-11d  %b | %-11d  %b", a, b, operation, out, overflow);
 
-        $dumpflush;
+        // $dumpflush;
     end
 
 endmodule
