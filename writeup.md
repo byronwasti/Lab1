@@ -1,4 +1,39 @@
 # Writeup
+Byron Wasti, Franton Lin, Tom Heale
+
+## ALU Component Design
+
+We built each of the operations for our ALU separately and selected which operation to output from the ALU using a MUX with a 3(?) bit selector.
+
+### Adder
+
+We implemented a full adder as in prrevious labs and homeworks. It has 3 single bit inputs: a, b, and carry-in. 
+
+### Subtractor
+
+### Set Less Than
+
+### XOR
+
+### And & NAND
+
+### NOR & OR
+
+## Bitslice Implementation
+
+## Timing Analysis
+
+|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
+------------ | :---------------------: | --------------------: |
+Adder        | number                  | number                |
+Subtractor   | number                  | number                |
+Set Less Than|||
+XOR |||
+OR |||
+NOR |||
+AND |||
+NAND |||
+
 
 ## Implementation
 
@@ -6,10 +41,10 @@
 > Include block diagrams of your ALU at an appropriate level of detail: the top-level diagram above is too abstract to say anything about your particular design, while a single figure with every AND gate and wire would be unintelligible. Use your hierarchy and organization to show the important pieces. If you took a Bitslice approach, you should show a single bit and how they fit together.
 
 
--- Chose to merge subtractor and adder and have ALU utilize adder for subtraction.
+Chose to merge subtractor and adder and have ALU utilize adder for subtraction.
 Have each bit flipped for bit-slice, and just use a carry-in=1 for the first adder
 
--- Chose to use a Mux at the end instead of in each bit slice to allow for SLT to function properly
+Chose to use a Mux at the end instead of in each bit slice to allow for SLT to function properly
 
 ## Test Results
 
@@ -32,7 +67,3 @@ Have each bit flipped for bit-slice, and just use a carry-in=1 for the first add
 
 ## Work Plan Reflection
 > Compare how long each unit work actually took to how long you predicted it would take. This will help you better schedule future labs.
-
-
-
-
