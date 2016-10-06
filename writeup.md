@@ -96,6 +96,17 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 
 ## Test Results
 
+For all of our operations, we were able to exhaustively test all the possible cases with a single bitslice. For larger strings of "a" and "b," we had to select specific cases to test the functionality of our operations. 
+
+### Basic Gates
+For the basic gates, we chose to do only one test for each gate. We chose values for "a" and "b" that contain substrings of each relevant relation. Thus, by testing these 2 values, we are testing all the cases for each gate repeatedly. Our testing of these gates didn't require us to make any changes to our implementation because Verilog has these basic gates built in. THey worked well on our first try.
+
+### Add/Subtract
+
+
+
+### SLT
+
 > For each ALU operation, include the following in your report:
 
 > A written description of what tests you chose, and why you chose them. This should be roughly a paragraph or two per operation.
@@ -111,18 +122,18 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 
 ## Timing Analysis
 
-We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted and measured worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
+We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
 
-|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
------------- | :---------------------: | --------------------: |
-Adder        | 220ns                   | number                |
-Subtractor   | 330ns                   | number                |
-Set Less Than|440ns||
-XOR |110ns ||
-OR |30ns ||
-NOR |20ns ||
-AND |30ns ||
-NAND |20ns ||
+|Component   |  Predicted Worst Delay  |
+------------ | ----------------------: |
+Adder        | 220ns                   |
+Subtractor   | 330ns                   |
+Set Less Than| 440ns                   |
+XOR          | 110ns                   |
+OR           | 30ns                    |
+NOR          | 20ns                    |
+AND          | 30ns                    |
+NAND         | 20ns                    |
 
 
 ## Work Plan Reflection
