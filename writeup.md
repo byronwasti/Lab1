@@ -11,6 +11,8 @@ Have each bit flipped for bit-slice, and just use a carry-in=1 for the first add
 
 -> Basic gates test bench caught misnaming of variables.
 
+-> ALU test showed that gates were not connected
+
 ## Timing Analysis
 
 ## Work Plan Reflection
