@@ -11,7 +11,7 @@
 
 module bitSliceALU
 (
-    output out,
+    output [7:0] out,
     output carryout,
     input a,
     input b,
@@ -26,14 +26,15 @@ module bitSliceALU
 
 
     `XOR xorgate1 (invertB, invert, b);
-    fullAdder adder0 (outputs[0], carryout, a, invertB, carryin);
-    `AND andgate0 (outputs[1],  a, b);
-    `NAND nandgate0 (outputs[2], a, b);
-    `NOR norgate0 (outputs[3], a, b);
-    `OR orgate0 (outputs[4], a, b);
-    `XOR xorgate0 (outputs[5], a, b);
+    fullAdder adder0 (out[0], carryout, a, invertB, carryin);
+    `AND andgate0 (out[1],  a, b);
+    `NAND nandgate0 (out[2], a, b);
+    `NOR norgate0 (out[3], a, b);
+    `OR orgate0 (out[4], a, b);
+    `XOR xorgate0 (out[5], a, b);
+    `AND (out[6], invert, invert);  // This is for SLT
 
-    aluMUX mux0 (out, sel, outputs);
+    //aluMUX mux0 (out, sel, outputs);
 
 endmodule
 
@@ -53,13 +54,15 @@ module alu
     wire invert;
     wire initialOverflow;
     wire sltOp;
+    wire [31:0][7:0] outputs;
     aluLUT lut0 (sel, invert, sltOp, operation);
 
-    bitSliceALU _alu(out[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
+    bitSliceALU _alu(outputs[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
     genvar i;
     generate
         for (i=1; i < 32; i=i+1) begin : aluSlices
-            bitSliceALU _alu(out[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
+            bitSliceALU _alu(outputs[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
+            aluMUX _mux(out[i], sel, 
         end
     endgenerate
 
