@@ -17,22 +17,21 @@ module bitSliceALU
     input b,
     input carryin,
     input [2:0] sel,
-    input negate
+    input invert
 );
-    wire a, b, carryin, negate;
+    wire a, b, carryin, invert;
 
     wire [7:0] outputs;
     wire invertB;
 
-    `AND andgate0 (outputs[0],  a, b);
-    `NOR norgate0 (outputs[1], a, b);
-    `OR orgate0 (outputs[2], a, b);
-    `XOR xorgate0 (outputs[3], a, b);
-    `NAND nandgate0 (outputs[4], a, b);
-    
-    `XOR xorgate1 (invertB, negate, b);
 
-    fullAdder adder0 (outputs[5], carryout, a, invertB, carryin);
+    `XOR xorgate1 (invertB, invert, b);
+    fullAdder adder0 (outputs[0], carryout, a, invertB, carryin);
+    `AND andgate0 (outputs[1],  a, b);
+    `NAND nandgate0 (outputs[2], a, b);
+    `NOR norgate0 (outputs[3], a, b);
+    `OR orgate0 (outputs[4], a, b);
+    `XOR xorgate0 (outputs[5], a, b);
 
     aluMUX mux0 (out, sel, outputs);
 
