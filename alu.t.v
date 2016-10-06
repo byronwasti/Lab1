@@ -26,10 +26,12 @@ module testALU();
         $dumpvars();  
         $display("a  b  op | out overflow | Expected");
         
-        a=32'd10;
-        b=32'd5;
-        operation=`ADD;
-        #1000;
+        //a=32'd10;
+        //b=32'd13;
+        a=32'd2;
+        b=32'd1;
+        operation=`NOR;
+        #10000;
         $display("%d %d %b | %d %b | 15 0", a, b, operation, $signed(out), overflow);
 
         $dumpflush;

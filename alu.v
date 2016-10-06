@@ -56,7 +56,7 @@ module alu
     bitSliceALU _alu(out[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
     genvar i;
     generate
-        for (i=1; i < 32; i=i+1) begin : ADDER
+        for (i=1; i < 32; i=i+1) begin : aluSlices
             bitSliceALU _alu(out[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
         end
     endgenerate
