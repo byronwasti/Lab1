@@ -12,43 +12,43 @@
 
 module testALU();
     
-    reg signed [31:0] a;
-    reg signed [31:0] b;
-    reg[2:0] operation;
+    reg signed [31:0] operandA;
+    reg signed [31:0] operandB;
+    reg[2:0] command;
 
-    wire signed [31:0] out;
-    wire overflow;
+    wire signed [31:0] result;
+    wire carryout, zero, overflow;
 
-    alu alu0(out, overflow, operation, a, b);
+    ALU alu0(result, carryout, zero, overflow, operandA, operandB, command);
 
     initial begin
         // $dumpfile("alu_all.vcd");
         // $dumpvars();  
-        $display("a            b            op  | out          overflow | expected");
-        a=-32'd2147483000;b=32'd483001;operation=`ADD; #100000;
-        $display("%-11d  %-11d  ADD | %-11d  %b", a, b, out, overflow);
-        a=32'd2147483000;operation=`SUB; #100000;
-        $display("%-11d  %-11d  SUB | %-11d  %b", a, b, out, overflow);
+        $display("operandA     operandB     cmd | result       co ov z | expected");
+        operandA=-32'd2147483000;operandB=32'd483001;command=`ADD; #100000;
+        $display("%-11d  %-11d  ADD | %-11d  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        operandA=32'd2147483000;command=`SUB; #100000;
+        $display("%-11d  %-11d  SUB | %-11d  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
 
         $display();
-        $display("a                                 b                                 op   | out                               overflow | expected");
-        a=32'b10101010101010101111000011110000;b=32'b01010101010101010000111111110000;operation=`AND; #100000;
-        $display("%b  %b  AND  | %b  %b", a, b, out, overflow);
-        operation=`NAND; #100000;
-        $display("%b  %b  NAND | %b  %b", a, b, out, overflow);
-        operation=`OR; #100000;
-        $display("%b  %b  OR   | %b  %b", a, b, out, overflow);
-        operation=`NOR; #100000;
-        $display("%b  %b  NOR  | %b  %b", a, b, out, overflow);
-        operation=`XOR; #100000;
-        $display("%b  %b  XOR  | %b  %b", a, b, out, overflow);
+        $display("operandA                          operandB                          cmd  | result                            co ov z | expected");
+        operandA=32'b10101010101010101111000011110000;operandB=32'b01010101010101010000111111110000;command=`AND; #100000;
+        $display("%b  %b  AND  | %b  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        command=`NAND; #100000;
+        $display("%b  %b  NAND | %b  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        command=`OR; #100000;
+        $display("%b  %b  OR   | %b  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        command=`NOR; #100000;
+        $display("%b  %b  NOR  | %b  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        command=`XOR; #100000;
+        $display("%b  %b  XOR  | %b  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
 
         $display();
-        $display("a            b            op  | out overflow | expected");
-        a=-32'd2147483000;b=32'd483001;operation=`SLT; #100000;
-        $display("%-11d  %-11d  SLT | %0d   %b", a, b, out, overflow);
-        a=32'd2147483000; #100000;
-        $display("%-11d  %-11d  SLT | %0d   %b", a, b, out, overflow);
+        $display("operandA     operandB     cmd | result co ov z | expected");
+        operandA=-32'd2147483000;operandB=32'd483001;command=`SLT; #100000;
+        $display("%-11d  %-11d  SLT | %0d      %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
+        operandA=32'd2147483000; #100000;
+        $display("%-11d  %-11d  SLT | %0d      %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);
 
         // $dumpflush;
     end
