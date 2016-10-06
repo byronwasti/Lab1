@@ -48,6 +48,7 @@ module alu
 );
 
     wire [31:0] carryoutSlice;
+    wire [31:0] outBase;
 
     wire [2:0] sel;
     wire invert;
@@ -59,7 +60,7 @@ module alu
     genvar i;
     generate
         for (i=1; i < 32; i=i+1) begin : aluSlices
-            bitSliceALU _alu(out[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
+            bitSliceALU _alu(outBase[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
         end
     endgenerate
 
@@ -80,5 +81,19 @@ module alu
     wire sltWire;
     `XOR (sltWire, initialOverflow, out[31]);
 
+    genvar j;
+    generate
+        for (j=1; j < 32; j=j+1) begin : wipeOut
+            `AND (out[j], outBase[j], notSltOp);
+        end
+    endgenerate
+
+    // This is to rewrite the first bit if and only if
+    // the SLT wire is positive AND SLT option is
+    // selected
+    wire nbc, ba;
+    `AND (nbc, sltOp, outBase[0]);
+    `AND (ba, sltOp, sltWire);
+    `OR (out[0], nbc, ba);
 
 endmodule
