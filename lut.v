@@ -26,7 +26,7 @@ module aluLUT
             `NOR:  begin sel = 3; invert=0; end
             `OR:   begin sel = 4; invert=0; end
             `XOR:  begin sel = 5; invert=0; end
-            `SLT:  begin sel = 6; invert=1; end   
+            `SLT:  begin sel = 6; invert=0; end   
         endcase
     end
 endmodule
