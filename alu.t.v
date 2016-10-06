@@ -22,7 +22,7 @@ module testALU();
     alu alu0(out, overflow, operation, a, b);
 
     initial begin
-        $dumpfile("adder.vcd");
+        $dumpfile("alu_all.vcd");
         $dumpvars();  
         $display("a  b  op | out overflow | Expected");
         
@@ -30,8 +30,8 @@ module testALU();
         //b=32'd13;
         a=32'd2;
         b=32'd1;
-        operation=`NOR;
-        #10000;
+        operation=`AND;
+        #100000;
         $display("%d %d %b | %d %b | 15 0", a, b, operation, $signed(out), overflow);
 
         $dumpflush;
