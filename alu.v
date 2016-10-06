@@ -51,7 +51,9 @@ module alu
 
     wire [2:0] sel;
     wire invert;
-    aluLUT lut0 (sel, invert, operation);
+    wire initialOverflow;
+    wire sltOp;
+    aluLUT lut0 (sel, invert, sltOp, operation);
 
     bitSliceALU _alu(out[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
     genvar i;
@@ -61,6 +63,22 @@ module alu
         end
     endgenerate
 
-    `XOR xorgate0 (overflow, carryoutSlice[30], carryoutSlice[31]);
+
+    // Handle overflow logic
+    `XOR xorgate0 (initialOverflow, carryoutSlice[30], carryoutSlice[31]);
+    
+    // Only propagate overflow if an add or subtract
+    wire notSltOp;
+    wire [2:0] notSel;
+    `NOT (notSltOp, sltOp);
+    `NOT (notSel[0], sel[0]);
+    `NOT (notSel[1], sel[1]);
+    `NOT (notSel[2], sel[2]);
+    `AND (overflow, initialOverflow, notSel[0], notSel[1], notSel[2], notSltOp);
+
+    // Overflow is used to determine SLT
+    wire sltWire;
+    `XOR (sltWire, initialOverflow, out[31]);
+
 
 endmodule

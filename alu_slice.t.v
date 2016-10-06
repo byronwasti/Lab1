@@ -12,6 +12,9 @@ module testBitSlice();
     bitSliceALU bitslice0 (out, carryout, a, b, carryin, sel, invert);
 
     initial begin
+        $dumpfile("alu.vcd");
+        $dumpvars();  
+
         $display("ADD/SUB");
         $display("a b ci sel inv | out co | out co (expected)");
         a=1;b=1;carryin=0;sel=0;invert=0; #1000
@@ -89,6 +92,7 @@ module testBitSlice();
         a=1;b=1;carryin=1;sel=6;invert=1; #1000
         $display("%b %b  %b   %d   %b |   %b  %b | 0   X", a, b, carryin, sel, invert, out, carryout);
         
+        $dumpflush;
     end
 
 endmodule
