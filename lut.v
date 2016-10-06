@@ -19,14 +19,14 @@ module aluLUT
 
     always @(ALUcommand) begin
         case (ALUcommand)
-            `ADD:  begin sel = 0; invert=0; sltOp=0; end    
-            `SUB:  begin sel = 0; invert=1; sltOp=0; end
-            `AND:  begin sel = 1; invert=0; sltOp=0; end
-            `NAND: begin sel = 2; invert=0; sltOp=0; end
-            `NOR:  begin sel = 3; invert=0; sltOp=0; end
-            `OR:   begin sel = 4; invert=0; sltOp=0; end
-            `XOR:  begin sel = 5; invert=0; sltOp=0; end
-            `SLT:  begin sel = 0; invert=1; sltOp=1; end   
+            `ADD:  begin sel = 0; invert=0; end    
+            `SUB:  begin sel = 0; invert=1; end
+            `AND:  begin sel = 1; invert=0; end
+            `NAND: begin sel = 2; invert=0; end
+            `NOR:  begin sel = 3; invert=0; end
+            `OR:   begin sel = 4; invert=0; end
+            `XOR:  begin sel = 5; invert=0; end
+            `SLT:  begin sel = 6; invert=0; end   
         endcase
     end
 endmodule

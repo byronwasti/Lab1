@@ -11,7 +11,15 @@
 
 module bitSliceALU
 (
-    output [7:0] out,
+    /*
+    output outAdder,
+    output outAnd,
+    output outNand,
+    output outNor,
+    output outOr,
+    output outXor,
+    */
+    output[7:0] outputs,
     output carryout,
     input a,
     input b,
@@ -26,15 +34,20 @@ module bitSliceALU
 
 
     `XOR xorgate1 (invertB, invert, b);
-    fullAdder adder0 (out[0], carryout, a, invertB, carryin);
-    `AND andgate0 (out[1],  a, b);
-    `NAND nandgate0 (out[2], a, b);
-    `NOR norgate0 (out[3], a, b);
-    `OR orgate0 (out[4], a, b);
-    `XOR xorgate0 (out[5], a, b);
-    `AND (out[6], invert, invert);  // This is for SLT
-
-    //aluMUX mux0 (out, sel, outputs);
+    /*
+    fullAdder adder0 (outAdder, carryout, a, invertB, carryin);
+    `AND andgate0 (outAnd,  a, b);
+    `NAND nandgate0 (outNand, a, b);
+    `NOR norgate0 (outNor, a, b);
+    `OR orgate0 (outOr, a, b);
+    `XOR xorgate0 (outXor, a, b);
+    */
+    fullAdder adder0 (outputs[0], carryout, a, invertB, carryin);
+    `AND andgate0 (outputs[1],  a, b);
+    `NAND nandgate0 (outputs[2], a, b);
+    `NOR norgate0 (outputs[3], a, b);
+    `OR orgate0 (outputs[4], a, b);
+    `XOR xorgate0 (outputs[5], a, b);
 
 endmodule
 
@@ -54,34 +67,67 @@ module alu
     wire invert;
     wire initialOverflow;
     wire sltOp;
-    wire [31:0][7:0] outputs;
-    aluLUT lut0 (sel, invert, sltOp, operation);
+    aluLUT lut0 (sel, invert, operation);
 
-    bitSliceALU _alu(outputs[0], carryoutSlice[0], a[0], b[0], invert, sel, invert);
+    /*
+    wire [31:0] outAdder;
+    wire [31:0] outAnd;
+    wire [31:0] outNand;
+    wire [31:0] outNor;
+    wire [31:0] outOr;
+    wire [31:0] outXor;
+    wire [31:0] outSlt;
+    */
+
+
+    wire [7:0] outputSlice0;
+    /*
+    bitSliceALU _alu(outAdder[0], outAnd[0], outNand[0],
+                     outNor[0], outOr[0], outXor[0],
+                     carryoutSlice[0], a[0], b[0], 
+                     invert, sel, invert); // Carry-in at first is invert
+                 */
+    bitSliceALU _alu(outputSlice0, 
+                     carryoutSlice[0], a[0], b[0], 
+                     invert, sel, invert); // Carry-in at first is invert
+
     genvar i;
     generate
         for (i=1; i < 32; i=i+1) begin : aluSlices
-            bitSliceALU _alu(outputs[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
-            aluMUX _mux(out[i], sel, 
+            wire [0:7] _outputSlice;
+            /*
+            bitSliceALU _alu(outAdder[i], outAnd[i], outNand[i], 
+                             outNor[i], outOr[i], outXor[i], 
+                             carryoutSlice[i], a[i], b[i], 
+                             carryoutSlice[i-1], sel, invert);
+                         */
+            bitSliceALU _alu(_outputSlice,
+                             carryoutSlice[i], a[i], b[i], 
+                             carryoutSlice[i-1], sel, invert);
+            aluMUX _mux(out[i], sel, _outputSlice);
+            //aluMUX _mux(out[i], sel, {outAdder[i], outAnd[i], outNand[i],
+                                      //outNor[i], outOr[i], outXor[i], outSlt[i], outSlt[i]});
         end
     endgenerate
 
+    //aluMUX mux123(out[0], sel, [outSlt[0], outSlt[0], outXor[0],
+                                //outOr[0], outNor[0], outNand[0], 
+                                //outAnd[0], outAdder[0]] );
 
+    /*
     // Handle overflow logic
     `XOR xorgate0 (initialOverflow, carryoutSlice[30], carryoutSlice[31]);
     
     // Only propagate overflow if an add or subtract
-    wire notSltOp;
     wire [2:0] notSel;
     `NOT (notSltOp, sltOp);
     `NOT (notSel[0], sel[0]);
     `NOT (notSel[1], sel[1]);
     `NOT (notSel[2], sel[2]);
-    `AND (overflow, initialOverflow, notSel[0], notSel[1], notSel[2], notSltOp);
+    `AND (overflow, initialOverflow, notSel[0], notSel[1], notSel[2]);
 
     // Overflow is used to determine SLT
-    wire sltWire;
-    `XOR (sltWire, initialOverflow, out[31]);
-
+    `XOR (outSlt[0], initialOverflow, outAdder[31]);
+    */
 
 endmodule
