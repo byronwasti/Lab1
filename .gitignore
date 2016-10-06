@@ -2,4 +2,5 @@ a.out
 run
 *.swp
 .DS_Store
+*.vcd
 
