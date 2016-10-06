@@ -13,6 +13,7 @@ module aluLUT
 (
     output reg[2:0] sel,
     output reg      invert,
+    output reg      sltOp,
     input[2:0]      ALUcommand
 );
     wire[2:0] ALUcommand;

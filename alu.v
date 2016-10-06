@@ -50,6 +50,7 @@ module alu
 );
 
     wire [31:0] carryoutSlice;
+    wire [31:0] outBase;
 
     wire [2:0] sel;
     wire invert;
