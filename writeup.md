@@ -111,18 +111,19 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 
 ## Timing Analysis
 
+We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted and measured worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
+
 |Component   |  Predicted Worst Delay  |  Measured Worst Delay |
 ------------ | :---------------------: | --------------------: |
-Adder        | number                  | number                |
-Subtractor   | number                  | number                |
-Set Less Than|||
-XOR |||
-OR |||
-NOR |||
-AND |||
-NAND |||
+Adder        | 220ns                   | number                |
+Subtractor   | 330ns                   | number                |
+Set Less Than|440ns||
+XOR |110ns ||
+OR |30ns ||
+NOR |20ns ||
+AND |30ns ||
+NAND |20ns ||
 
-> Provide the worst case propagation delay for each of the operations of the ALU. This can be calculated or simulated (preferably both). Note: the propagation delay for some operations depends heavily on your choice of operands.
 
 ## Work Plan Reflection
 > Compare how long each unit work actually took to how long you predicted it would take. This will help you better schedule future labs.
