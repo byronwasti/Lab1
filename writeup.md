@@ -96,29 +96,49 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 
 ## Test Results
 
-For all of our operations, we were able to exhaustively test all the possible cases with a single bitslice. For larger strings of "a" and "b," we had to select specific cases to test the functionality of our operations. 
+For all of our operations, we were able to exhaustively test all the possible cases with a single bitslice. We did most of our debugging with these exhaustive bitslice tests. For larger strings of "a" and "b," we had to select specific cases to test the functionality of our operations. 
 
 ### Basic Gates
-For the basic gates, we chose to do only one test for each gate. We chose values for "a" and "b" that contain substrings of each relevant relation. Thus, by testing these 2 values, we are testing all the cases for each gate repeatedly. Our testing of these gates didn't require us to make any changes to our implementation because Verilog has these basic gates built in. THey worked well on our first try.
+For the basic gates, we chose to do only one test for each gate. We chose values for "a" and "b" that contain substrings of each relevant relation. Thus, by testing these 2 values, we are testing all the cases for each gate repeatedly. Our testing of these gates didn't require us to make any changes to our implementation because Verilog has these basic gates built in. They worked well on our first try.
+
+operandA                         | operandB                         | Command  | Result                           |
+-------------------------------: | :------------------------------: | :------: | :------------------------------: |
+10101010101010101111000011110000 | 01010101010101010000111111110000 | AND      | 00000000000000000000000011110000 |
+10101010101010101111000011110000 | 01010101010101010000111111110000 | NAND     | 11111111111111111111111100001111 |
+10101010101010101111000011110000 | 01010101010101010000111111110000 | OR       | 11111111111111111111111111110000 |
+10101010101010101111000011110000 | 01010101010101010000111111110000 | NOR      | 00000000000000000000000000001111 |
+10101010101010101111000011110000 | 01010101010101010000111111110000 | XOR      | 11111111111111111111111100000000 |
+
 
 ### Add/Subtract
 
+To test our adder and our subtractor we unsured that we were testing some specific cases. We wanted to use negative and positive values for both "a" and "b" as well as testing the overflow flag for each operation. 
 
+When testing our subtractor, we discovered that we were setting the carry-in to 1 in the wrong place. When we first tested the subtractor, we were getting weird results because we were always setting the carry-in to 1. Realizing this, we instead set only the inital value of carry-in to 1 and let the rest of the values naturally cascade.
+
+A              | B       | Command | Result         | Overflow |
+-------------: | :-----: | :-----: | :------------: | :------- |
+-2,147,483,000 | 483,001 | ADD     | -2,146,999,999 | 0        |
+2,147,483,000  | 483,001 | ADD     | -2,147,001,295 | 1        |
+214,748,300    | 48,301  | ADD     | -214,796,601   | 0        |
+2,147,483,000  | 483,001 | SUB     |  2,146,999,999 | 0        |
+-2,147,483,000 | 483,001 | SUB     | 2,147,001,295  | 1        |
+-214,748,300   | 48,301  | SUB     | -214,796,601   | 0        |
 
 ### SLT
 
-> For each ALU operation, include the following in your report:
+In the tests we made for our SLT, we wanted to capture cases similar to those tested with our adder and subtractor. We wanted to try different combinations of positive and negative values for our inputs. Rather than testing for an overflow flag, though, we instead ensured that the SLT works even with overflow (and it does). 
 
-> A written description of what tests you chose, and why you chose them. This should be roughly a paragraph or two per operation.
-> Specific instances where your test bench caught a flaw in your design.
-> As your ALU design evolves, you may find that new test cases should be added to your test bench. This is a good thing. When this happens, record specifically why these tests were added.
+We found a problem with our SLT during testing. Initially, most of the bits were unset (Zs), and only the smallest bit was set to 1 or 0 based upon whether "a" was less than "b." This was due to our setting the length of our SLT True/False value to 32. It didn't affect our results, but it seemed like a poor design choice to have floating bits. We seemed to need a 32 bit value, so we just forced the floating bits to 0. Our SLT is still functional, and it looks much more professional. 
 
+A           | B         | Command | Result |
+----------: | :-------: | :-----: | :----: |
+-2147483000 | 483001    | SLT     | 1      |
+2147483000  | -483001   | SLT     | 0      |
+2147483000  | 483001    | SLT     | 0      |
+-2147483000 | -483001   | SLT     | 1      |
+-2147483000 | 422283001 | SLT     | 1      |
 
--> Basic gates test bench caught misnaming of variables.
-
--> ALU test showed that gates were not connected
-
--> Testing showed the MUX was not wired up (quite) correctly. The 6 & 7th inputs of the MUX are disconnected, but we revered the inputs into the MUX so we were using them when we didn't expect to
 
 ## Timing Analysis
 
