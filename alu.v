@@ -21,7 +21,6 @@ module bitSliceALU
     input a,
     input b,
     input carryin,
-    input [2:0] sel,
     input invert
 );
     wire a, b, carryin, invert;
@@ -69,7 +68,7 @@ module alu
     bitSliceALU _alu(outAdder[0], outAnd[0], outNand[0],
                      outNor[0], outOr[0], outXor[0],
                      carryoutSlice[0], a[0], b[0], 
-                     invert, sel, invert); // Carry-in at first is invert
+                     invert, invert); // Carry-in at first is invert
 
     aluMUX _mux(out[0], sel, outAdder[0], outAnd[0], outNand[0],
                                       outNor[0], outOr[0], outXor[0], outSlt[0], outSlt[0]);
@@ -78,9 +77,9 @@ module alu
     generate
         for (i=1; i < 32; i=i+1) begin : aluSlices
             bitSliceALU _alu(outAdder[i], outAnd[i], outNand[i], 
-                             outNor[i], outOr[i], outXor[i], 
+                             outNor[i], outOr[i], outXor[i],
                              carryoutSlice[i], a[i], b[i], 
-                             carryoutSlice[i-1], sel, invert);
+                             carryoutSlice[i-1], invert);
             aluMUX _mux(out[i], sel, outAdder[i], outAnd[i], outNand[i],
                                       outNor[i], outOr[i], outXor[i], outSlt[i], outSlt[i]);
         end
