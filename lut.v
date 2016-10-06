@@ -21,12 +21,12 @@ module aluLUT
         case (ALUcommand)
             `ADD:  begin sel = 0; invert=0; end    
             `SUB:  begin sel = 0; invert=1; end
-            `AND:  begin sel = 1; invert=1; end
-            `NAND: begin sel = 1; invert=0; end
-            `NOR:  begin sel = 2; invert=0; end
-            `OR:   begin sel = 2; invert=1; end
-            `XOR:  begin sel = 3; invert=0; end
-            // `SLT:  begin muxindex = 2; invert=0; end   
+            `AND:  begin sel = 1; invert=0; end
+            `NAND: begin sel = 2; invert=0; end
+            `NOR:  begin sel = 3; invert=0; end
+            `OR:   begin sel = 4; invert=0; end
+            `XOR:  begin sel = 5; invert=0; end
+            `SLT:  begin muxindex = 2; invert=0; end   
         endcase
     end
 endmodule

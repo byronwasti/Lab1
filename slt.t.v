@@ -12,13 +12,13 @@ module testSLT();
     // $dumpfile("slt.vcd");
     // $dumpvars();
     $display("A B | Cin Cout | Overflow Sum");
-    a=0; b=0; carryin=1; #500
+    a=0; b=0; carryin=1; #1000
     $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
-    a=1; b=0; carryin=1; #500
+    a=1; b=0; carryin=1; #1000
     $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
-    a=0; b=1; carryin=1; #500
+    a=0; b=1; carryin=1; #1000
     $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
-    a=1; b=1; carryin=1; #500
+    a=1; b=1; carryin=1; #1000
     $display( "%b %b | %b %b | %b %b", a, b, carryin, carryout, overflow, sum );
     end
 endmodule

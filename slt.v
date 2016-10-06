@@ -1,6 +1,6 @@
 // Set Less Than circuit
-
 `timescale 1 ns/1 ps
+
 // define gates with delays
 `define AND and #30
 `define OR or #30

@@ -1,5 +1,6 @@
 `include "adder.v"
 `include "mux.v"
+`include "lut.v"
 
 `define AND and #30
 `define OR or #30
@@ -34,5 +35,32 @@ module bitSliceALU
     fullAdder adder0 (outputs[5], carryout, a, invertB, carryin);
 
     aluMUX mux0 (out, sel, outputs);
+
+endmodule
+
+
+module alu
+(
+    output [31:0] out,
+    output overflow,
+    input [2:0] operation,
+    input [31:0] a,
+    input [31:0] b,
+);
+
+    wire [31:0] outSlice;
+    wire [31:0] carryoutSlice;
+
+    wire [2:0] sel;
+    wire invert;
+    aluLUT lut0 (sel, invert, operation);
+
+    bitSliceALU _alu(outSlice[0], carryoutSlice[0], a[0], b[0], sel, invert);
+    genvar i;
+    generate
+        for (i=1; i < 32; i=i+1) begin : ADDER
+            bitSliceALU _alu(outSlice[i], carryoutSlice[i], a[i], b[i], carryoutSlice[i-1], sel, invert);
+        end
+    endgenerate
 
 endmodule
