@@ -103,13 +103,13 @@ module ALU
     `XOR (outSlt[0], initialOverflow, outAdder[31]);
 
     // Zero flag
-    wire [30:0] calcZero;
-    `OR (calcZero[0], result[0], result[1]);
+    wire [30:0] ors;
+    `OR (ors[0], result[0], result[1]);
     generate
-        for (i=0; i < 30; i=i+1) begin
-            `OR (calcZero[i+1], result[i+1], calcZero[i]);
+        for (i=0; i < 30; i=i+1) begin : calcZero
+            `OR (ors[i+1], result[i+1], ors[i]);
         end
     endgenerate
-    `NOT (zero, calcZero[30]);
+    `NOT (zero, ors[30]);
 
 endmodule
