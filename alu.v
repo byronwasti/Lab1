@@ -71,7 +71,7 @@ module alu
                      invert, invert); // Carry-in at first is invert
 
     aluMUX _mux(out[0], sel, outAdder[0], outAnd[0], outNand[0],
-                                      outNor[0], outOr[0], outXor[0], outSlt[0], outSlt[0]);
+                                      outNor[0], outOr[0], outXor[0], outSlt[0], 1'b0);
 
     genvar i;
     generate
@@ -81,7 +81,7 @@ module alu
                              carryoutSlice[i], a[i], b[i], 
                              carryoutSlice[i-1], invert);
             aluMUX _mux(out[i], sel, outAdder[i], outAnd[i], outNand[i],
-                                      outNor[i], outOr[i], outXor[i], outSlt[i], outSlt[i]);
+                                      outNor[i], outOr[i], outXor[i], 1'b0, 1'b0);
         end
     endgenerate
 
