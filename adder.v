@@ -1,4 +1,4 @@
-// Adder circuit
+// 1-bit adder circuit
 
 // define gates with delays
 `define AND and #30

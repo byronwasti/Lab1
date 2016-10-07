@@ -1,3 +1,5 @@
+// LUT testbench
+
 `timescale 1 ns / 1 ps
 `include "lut.v"
 
@@ -28,4 +30,5 @@ module testLUT();
         cmd = `SLT; #1000
         $display("%b |   %d   %b | 6   0", cmd, sel, invert);
     end
+
 endmodule

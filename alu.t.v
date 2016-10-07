@@ -1,3 +1,5 @@
+// 32-bit alu testbench
+
 `timescale 1 ns / 1 ps
 `include "alu.v"
 
@@ -23,7 +25,8 @@ module testALU();
 
     initial begin
         // $dumpfile("alu_all.vcd");
-        // $dumpvars();  
+        // $dumpvars();
+
         $display("operandA     operandB     cmd | result       co ov z ");
         operandA=-32'd2147483000;operandB=32'd483001;command=`ADD; #100000;
         $display("%-11d  %-11d  ADD | %-11d  %b  %b  %b", operandA, operandB, result, carryout, overflow, zero);

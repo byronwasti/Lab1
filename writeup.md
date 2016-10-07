@@ -23,16 +23,16 @@ We designed our ALU in a Bitslice manner. This means that each bit of the two op
               bit-slice in the ALU
 ```
 
-As shown in Figure 1, every bit-slice of the ALU took in a single bit of _a_ and a single bit of _b_, as well as a _carryin_ and an _invert_ flag.  The output of the bit-slice is the output of all the operations that the ALU is able to do.
+As shown in Figure 1, every bit-slice of the ALU takes in a single bit of `a` and a single bit of `b`, as well as `carryin` and `invert` flags. The output of the bit-slice is the output of all the operations that the ALU is able to do.
 
-For most of the operations, such as the base binary logic gates, the bits of _a_ and _b_ are put through those logic gates and the output is the output of the logic gate. The unique case is for the Adder and Subtractor. To avoid unnecessary duplication, the Subtractor is an extension of the Adder and both return values on the same line.
+For most of the operations, such as the base binary logic gates, the output is the result of applying the appropriate logic gate to the bits of `a` and `b`. The unique case is for the Adder and Subtractor. To avoid unnecessary duplication, the Subtractor is an extension of the Adder and both return values on the same line.
 
-In order to have the Subtractor and Adder work together, we use the _invert_ flag of the bit-slice. The _b[i]_ bit is XOR-ed with the _invert_ bit. Thus, if _invert_ is set, _b[i]_ is inverted otherwise it remains the same. By also setting the _carryin_ of the first bit-slice to the value of _invert_, we effectively invert the value of _b_ and then add 1, and then add that to _a_ which is the same thing as subtracting. Thus the Adder and Subtractor take up the same amount of space.
+In order to have the Subtractor and Adder work together, we use the `invert` flag of the bit-slice. The `b[i]` bit is XOR-ed with the `invert` bit. Thus, if `invert` is set, `b[i]` is inverted otherwise it remains the same. By also setting the `carryin` of the first bit-slice to the value of `invert`, we effectively invert the value of `b` and then add 1, which negates `b`. This negated `b` is then added to `a`, which is the same thing as subtracting. Thus the Adder and Subtractor take up the same amount of space.
 
 
 ### All Together now
 
-In order to actually construct the ALU, 32 bit-slices are enumerated. For most of the basic logic gates, there are no cross-connections between bit-slices. However, for the Adder/Subtractor, the _carryout_ of the previous bit-slice is tied to the _carryin_ of the current bit-slice. This is true for all of the bit-slices except for the first one, which does not have a previous bit-slice, and is tied to the _invert_ flag which allows for subtraction as talked about in the previous section. The last _carryout_ is also an exception, as it is used for overflow detection and SLT operation, both of which will be talked about later.
+In order to actually construct the ALU, 32 bit-slices are enumerated. For most of the basic logic gates, there are no cross-connections between bit-slices. However, for the Adder/Subtractor, the `carryout` of the previous bit-slice is tied to the `carryin` of the current bit-slice. This is true for all of the bit-slices except for the first one, which does not have a previous bit-slice, and is tied to the `invert` flag which allows for subtraction as talked about in the previous section. The last `carryout` is also an exception, as it is used for overflow detection and SLT operation, both of which will be talked about later.
 
 Figure 2 shows how the different bit-slices are connected to each other.
 
@@ -63,15 +63,15 @@ The connections shown in Figure 2 demonstrate how the different bit-slices are c
 
 ### SLT and Overflow
 
-SLT and overflow can both only be done after the addition/subtraction of the ALU is completed. Thus, this step is not contained in each bit-slice. To detect for overflow, we simply XOR the _carryin_ to the MSB of the Adder and the _carryout_ of the MSB of the Adder.
+SLT and overflow can both only be done after the addition/subtraction of the ALU is completed. Thus, this step is not contained in each bit-slice. To detect for overflow, we simply XOR the `carryin` to the MSB of the Adder and the `carryout` of the MSB of the Adder.
 
-However, since overflow is only passed out of the ALU if there is an addition or subtraction operation (as it is an error), we only set the output _overflow_ bit if the addition or subtraction operation is requested. (Technically this is done by AND-ing the _overflow_ bit and the selection code for addition/subtraction which will be discussed later in the LUT section).
+However, since overflow is only passed out of the ALU if there is an addition or subtraction operation (as it is an error), we only set the output `overflow` bit if the addition or subtraction operation is requested. (Technically this is done by AND-ing the `overflow` bit and the selection code for addition/subtraction which will be discussed later in the LUT section).
 
-The SLT operation is completed by XOR-ing the _overflow_ with the MSB of the Adder. This output is set to the LSB of the SLT and the rest are tied to 0.
+The SLT operation is completed by XOR-ing the `overflow` with the MSB of the Adder. This output is set to the LSB of the SLT and the rest are tied to 0.
 
 ### MUXing and LUT
 
-The ALU now has seven 32-bit values from each of the different operations the ALU can perform. In order to choose the correct 32-bit value to output, we used 32, 8:1 MUXs on each bit of the outputs. In order to get the selection values for the MUXs, we used a LUT which interprets the input to the ALU and generates corresponding flags for operation.
+The ALU now has seven 32-bit values from each of the different operations the ALU can perform. In order to choose the correct 32-bit value to output, we used 32, 8:1 MUXs on each bit of the bit-slice outputs. In order to get the selection values for the MUXs, we used a LUT which interprets the input to the ALU and generates corresponding flags for operation.
 
 The LUT is as shown below:
 
@@ -92,7 +92,7 @@ By tying the output of the LUT to the selection of the MUXs, we can select only 
 
 ### Final Thoughts
 
-The ALU we designed is fully functional and is about as fast and small as we could make it. There are potentially some optimizations that can be put into place, and it seems wasteful to calculate every operation and only output the one we want instead of just calculating the operation desired.
+The ALU we designed is fully functional and is about as fast and small as we could make it. There are potentially some optimizations that can be put into place, as it seems wasteful to calculate every operation and only output the one we want instead of just calculating the operation desired.
 
 ## Test Results
 
@@ -103,11 +103,12 @@ For the basic gates, we chose to do only one test for each gate. We chose values
 
 operandA                         | operandB                         | Command  | Result                           |
 -------------------------------: | :------------------------------: | :------: | :------------------------------: |
-10101010101010101111000011110000 | 01010101010101010000111111110000 | AND      | 00000000000000000000000011110000 |
-10101010101010101111000011110000 | 01010101010101010000111111110000 | NAND     | 11111111111111111111111100001111 |
-10101010101010101111000011110000 | 01010101010101010000111111110000 | OR       | 11111111111111111111111111110000 |
-10101010101010101111000011110000 | 01010101010101010000111111110000 | NOR      | 00000000000000000000000000001111 |
-10101010101010101111000011110000 | 01010101010101010000111111110000 | XOR      | 11111111111111111111111100000000 |
+<sub>10101010101010101111000011110000</sub> | <sub>01010101010101010000111111110000</sub> | AND      | <sub>00000000000000000000000011110000</sub> |
+<sub>10101010101010101111000011110000</sub> | <sub>01010101010101010000111111110000</sub> | NAND     | <sub>11111111111111111111111100001111</sub> |
+<sub>10101010101010101111000011110000</sub> | <sub>01010101010101010000111111110000</sub> | OR       | <sub>11111111111111111111111111110000</sub> |
+<sub>10101010101010101111000011110000</sub> | <sub>01010101010101010000111111110000</sub> | NOR      | <sub>00000000000000000000000000001111</sub> |
+<sub>10101010101010101111000011110000</sub> | <sub>01010101010101010000111111110000</sub> | XOR      | <sub>11111111111111111111111100000000</sub> |
+
 
 
 ### Add/Subtract
@@ -142,18 +143,18 @@ A           | B         | Command | Result |
 
 ## Timing Analysis
 
-We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
+We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted and measured worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
 
-|Component   |  Predicted Worst Delay  |
------------- | ----------------------: |
-Adder        | 220ns                   |
-Subtractor   | 330ns                   |
-Set Less Than| 440ns                   |
-XOR          | 110ns                   |
-OR           | 30ns                    |
-NOR          | 20ns                    |
-AND          | 30ns                    |
-NAND         | 20ns                    |
+|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
+------------ | :---------------------: | --------------------: |
+Adder        | 220ns                   | number                |
+Subtractor   | 330ns                   | number                |
+Set Less Than|440ns||
+XOR |110ns ||
+OR |30ns ||
+NOR |20ns ||
+AND |30ns ||
+NAND |20ns ||
 
 
 ## Work Plan Reflection
