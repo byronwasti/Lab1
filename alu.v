@@ -95,8 +95,9 @@ module ALU
     `NOT (notSel[0], sel[0]);
     `NOT (notSel[1], sel[1]);
     `NOT (notSel[2], sel[2]);
-    `AND (carryout, carryoutSlice[31], notSel[0], notSel[1], notSel[2]);
-    `AND (overflow, initialOverflow, notSel[0], notSel[1], notSel[2]);
+    // more delay because 4-input AND built from two NANDs and one NOR
+    and #40 (carryout, carryoutSlice[31], notSel[0], notSel[1], notSel[2]);
+    and #40 (overflow, initialOverflow, notSel[0], notSel[1], notSel[2]);
 
     // determine SLT taking overflow into account
     `XOR (outSlt[0], initialOverflow, outAdder[31]);

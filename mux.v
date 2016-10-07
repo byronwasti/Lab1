@@ -1,12 +1,9 @@
 // 8:1 mux circuit
 
 // define gates with delays
-`define AND and #30
-`define OR or #30
+`define AND and #40 // 4-input AND built from two NANDs and one NOR
+`define OR or #70   // 8 input OR built from two NORS, one NAND, and an OR
 `define NOT not #10
-`define XOR xor #50
-`define NAND nand #20
-`define NOR nor #20
 
 module aluMUX
 (
