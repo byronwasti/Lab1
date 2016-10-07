@@ -1,4 +1,39 @@
 # Writeup
+Byron Wasti, Franton Lin, Tom Heale
+
+## ALU Component Design
+
+We built each of the operations for our ALU separately and selected which operation to output from the ALU using a MUX with a 3(?) bit selector.
+
+### Adder
+
+We implemented a full adder as in prrevious labs and homeworks. It has 3 single bit inputs: a, b, and carry-in. 
+
+### Subtractor
+
+### Set Less Than
+
+### XOR
+
+### And & NAND
+
+### NOR & OR
+
+## Bitslice Implementation
+
+## Timing Analysis
+
+|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
+------------ | :---------------------: | --------------------: |
+Adder        | number                  | number                |
+Subtractor   | number                  | number                |
+Set Less Than|||
+XOR |||
+OR |||
+NOR |||
+AND |||
+NAND |||
+
 
 ## Implementation
 
@@ -117,7 +152,3 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 
 ## Work Plan Reflection
 > Compare how long each unit work actually took to how long you predicted it would take. This will help you better schedule future labs.
-
-
-
-
