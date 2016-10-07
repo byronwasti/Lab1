@@ -1,3 +1,6 @@
+// 8:1 mux testbench
+
+`timescale 1 ns / 1 ps
 `include "mux.v"
 
 module testMux();
@@ -92,5 +95,5 @@ module testMux();
         #1000
         $display("%b    | %b   | 1", sel, out);
     end
-    
+
 endmodule

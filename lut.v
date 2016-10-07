@@ -1,4 +1,6 @@
-// define logic control
+// LUT for translating commands to control logic
+
+// define commands
 `define ADD  3'd0
 `define SUB  3'd1
 `define XOR  3'd2
@@ -8,16 +10,15 @@
 `define NOR  3'd6
 `define OR   3'd7
 
-
 module aluLUT
 (
     output reg[2:0] sel,
     output reg      invert,
-    // output reg      sltOp,
     input[2:0]      ALUcommand
 );
     wire[2:0] ALUcommand;
 
+    // set control logic for given command
     always @(ALUcommand) begin
         case (ALUcommand)
             `ADD:  begin sel = 0; invert=0; end    
@@ -30,4 +31,5 @@ module aluLUT
             `SLT:  begin sel = 6; invert=0; end   
         endcase
     end
+
 endmodule
