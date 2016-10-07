@@ -157,4 +157,4 @@ NAND |20ns ||
 
 
 ## Work Plan Reflection
-> Compare how long each unit work actually took to how long you predicted it would take. This will help you better schedule future labs.
+Everything took much long than we expected it to take. We were generally unable to get fully functional components on our own, so when we came together to integrate our pieces we spent way longer than anticipated debugging and rewriting code. The writeup itself also took a long time, especially thinking about propagation delays. We could have done a better job on that section and gotten measured results, but we realized that we had not properly built for realistic delays from the beginning. This meant that we would have had to redo a lot of our code and restructure many of our gates. We will keep this in mind for our next lab and build with this consideration from the start. 
