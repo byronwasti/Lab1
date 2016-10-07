@@ -75,16 +75,16 @@ The ALU now has seven 32-bit values from each of the different operations the AL
 
 The LUT is as shown below:
 
-| input || select | invert |
-|:------||:------:|:------:|
-| ADD   ||  000   |  0     |
-| SUB   ||  000   |  1     |
-| AND   ||  001   |  0     |
-| NAND  ||  010   |  0     |
-| NOR   ||  011   |  0     |
-| OR    ||  100   |  0     |
-| XOR   ||  101   |  0     |
-| SLT   ||  110   |  0     |
+| input | select | invert |
+|:------|:------:|:------:|
+| ADD   |  000   |  0     |
+| SUB   |  000   |  1     |
+| AND   |  001   |  0     |
+| NAND  |  010   |  0     |
+| NOR   |  011   |  0     |
+| OR    |  100   |  0     |
+| XOR   |  101   |  0     |
+| SLT   |  110   |  0     |
 
 Note that the ADD and SUB operations of the ALU are tied, with only the invert flag being set if SUB is the operation chosen.
 
