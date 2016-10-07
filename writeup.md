@@ -1,44 +1,7 @@
 # Writeup
 Byron Wasti, Franton Lin, Tom Heale
 
-## ALU Component Design
-
-We built each of the operations for our ALU separately and selected which operation to output from the ALU using a MUX with a 3(?) bit selector.
-
-### Adder
-
-We implemented a full adder as in prrevious labs and homeworks. It has 3 single bit inputs: a, b, and carry-in. 
-
-### Subtractor
-
-### Set Less Than
-
-### XOR
-
-### And & NAND
-
-### NOR & OR
-
-## Bitslice Implementation
-
-## Timing Analysis
-
-|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
------------- | :---------------------: | --------------------: |
-Adder        | number                  | number                |
-Subtractor   | number                  | number                |
-Set Less Than|||
-XOR |||
-OR |||
-NOR |||
-AND |||
-NAND |||
-
-
 ## Implementation
-
-> Discuss any interesting design choices you made along the way.
-> Include block diagrams of your ALU at an appropriate level of detail: the top-level diagram above is too abstract to say anything about your particular design, while a single figure with every AND gate and wire would be unintelligible. Use your hierarchy and organization to show the important pieces. If you took a Bitslice approach, you should show a single bit and how they fit together.
 
 ### Bitslice
 
@@ -147,6 +110,17 @@ The ALU we designed is fully functional and is about as fast and small as we cou
 -> Testing showed the MUX was not wired up (quite) correctly. The 6 & 7th inputs of the MUX are disconnected, but we revered the inputs into the MUX so we were using them when we didn't expect to
 
 ## Timing Analysis
+
+|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
+------------ | :---------------------: | --------------------: |
+Adder        | number                  | number                |
+Subtractor   | number                  | number                |
+Set Less Than|||
+XOR |||
+OR |||
+NOR |||
+AND |||
+NAND |||
 
 > Provide the worst case propagation delay for each of the operations of the ALU. This can be calculated or simulated (preferably both). Note: the propagation delay for some operations depends heavily on your choice of operands.
 
