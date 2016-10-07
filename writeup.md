@@ -144,16 +144,16 @@ operandA           | operandB         | Command | Result |
 
 We implemented our ALU using structural Verilog, meaning that our components (excluding the LUT) comprise only simple gates. This allows us to predict the propagation delay of of each calculation. The table below shows our predicted and measured worst case delay for single bit operations of each component. The predictions are based on the assumptions that every gate is built from NOR, NAND, and Not gates and that each of these fundamental gates has a delay equal to (10ns)*(# of inputs).
 
-|Component   |  Predicted Worst Delay  |  Measured Worst Delay |
------------- | :---------------------: | --------------------: |
-Adder        | 220ns                   | number                |
-Subtractor   | 330ns                   | number                |
-Set Less Than|440ns||
-XOR |110ns ||
-OR |30ns ||
-NOR |20ns ||
-AND |30ns ||
-NAND |20ns ||
+Component   |  Predicted Worst Delay 
+:------------: | :---------------------:
+Adder        | 220ns
+Subtractor   | 330ns                   
+Set Less Than|440ns
+XOR |110ns 
+OR |30ns 
+NOR |20ns 
+AND |30ns 
+NAND |20ns 
 
 
 ## Work Plan Reflection
