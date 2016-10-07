@@ -62,7 +62,7 @@ module ALU
     aluLUT lut0 (sel, invert, command);
 
     // outputs for bit-slice
-    wire [31:0] outAdder, outAnd, outNand, outNor, outOr, outXor, outStl;
+    wire [31:0] outAdder, outAnd, outNand, outNor, outOr, outXor, outSlt;
     wire [31:0] carryoutSlice;
 
     // compute outputs and mux for each bit using bit-slice
@@ -85,12 +85,12 @@ module ALU
     endgenerate
 
     // handle overflow logic
+    wire initialOverflow;
     `XOR xorgate0 (initialOverflow, carryoutSlice[30], carryoutSlice[31]);
     
     // only propagate carryout and overflow if an add or subtract
     wire sltOp;
     wire [2:0] notSel;
-    wire initialOverflow;
     `NOT (notSltOp, sltOp);
     `NOT (notSel[0], sel[0]);
     `NOT (notSel[1], sel[1]);
